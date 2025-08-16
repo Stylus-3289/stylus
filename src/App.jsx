@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Box } from '../src/types/Box';
+import { Canvas } from '../src/components/Canvas';
+import PropertiesPanel from '../src/components/PropertiesPanel';
+import { CodePanel } from '../src/components/CodePanel';
+import { Toolbar } from '../src/components/Toolbar';
+import './index.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+const [boxes, setBoxes] = useState([]);
+  const [selectedBoxId, setSelectedBoxId] = useState(null);
+
+  const selectedBox = boxes.find(box => box.id === selectedBoxId) || null;
+
+  const updateBox = (updatedBox) => {
+    setBoxes(boxes.map(box => (box.id === updatedBox.id ? updatedBox : box)));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="h-screen flex flex-col bg-background">
+      {/* Toolbar */}
+      <Toolbar 
+        boxes={boxes}
+        setBoxes={setBoxes}
+        selectedBoxId={selectedBoxId}
+        setSelectedBoxId={setSelectedBoxId}
+      />
+      
+      {/* Main content */}
+      <div className="flex-1 flex">
+        {/* Properties Panel */}
+        <div className="p-4">
+          <PropertiesPanel 
+            selectedBox={selectedBox}
+            onUpdateBox={updateBox}
+          />
+        </div>
+        
+        {/* Canvas */}
+        <Canvas
+          boxes={boxes}
+          setBoxes={setBoxes}
+          selectedBoxId={selectedBoxId}
+          setSelectedBoxId={setSelectedBoxId}
+        />
+        
+        {/* Code Panel */}
+        <div className="p-4">
+          <CodePanel boxes={boxes} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
