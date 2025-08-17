@@ -7,6 +7,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      base: '/stylus/',
+       build: { outDir: 'dist' },
+  server: {
+    historyApiFallback: true
+  }
     },
   },
 })
