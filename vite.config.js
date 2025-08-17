@@ -4,16 +4,16 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/stylus/',  
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
   },
+  base: "/stylus/",  
   build: {
-    outDir: 'dist',
+    outDir: "dist",
   },
   server: {
-    historyApiFallback: true
-  }
+    historyApiFallback: true,
+  },
 })
